@@ -20,3 +20,6 @@ filterwarnings = ["ignore::DeprecationWarning"]
 
 [tool.setuptools.packages.find]
 include = ["relay*"]
+
+[tool.vercel]
+entrypoint = "relay.main:app"

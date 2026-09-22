@@ -6,7 +6,10 @@ from collections.abc import Iterator
 from sqlalchemy import inspect, text
 from sqlmodel import Session, SQLModel, create_engine
 
-DB_URL = os.environ.get("RELAY_DB_URL", "sqlite:///./relay.db")
+# Vercel's filesystem is read-only apart from /tmp, so the demo database lives
+# there and reseeds whenever a fresh instance starts.
+_DEFAULT_DB = "sqlite:////tmp/relay.db" if os.environ.get("VERCEL") else "sqlite:///./relay.db"
+DB_URL = os.environ.get("RELAY_DB_URL", _DEFAULT_DB)
 
 engine = create_engine(
     DB_URL,
