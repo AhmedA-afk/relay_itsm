@@ -1,0 +1,100 @@
+/* Entry stylesheet.
+
+   Layer order matters. The hand-written visual system (styles.css) sits in its
+   own `legacy` layer, above Tailwind's preflight and below its utilities. That
+   way its tokens and resets still beat preflight, but a shadcn component's
+   utilities always beat the legacy element resets — without the layer, an
+   unlayered `button { padding: 0 }` would win over every `px-4`. */
+@layer theme, base, legacy, components, utilities;
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./styles.css" layer(legacy);
+
+/* lib/theme.js stamps .dark on <html> for the resolved appearance, auto
+   included, so shadcn's dark: variants follow the same switch as the tokens. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* shadcn's semantic names, defined once in terms of Relay's own tokens. The
+   tokens already change with the appearance, so nothing here needs a dark
+   block of its own. */
+:root {
+  --radius: 0.625rem;
+
+  --background: var(--field);
+  --foreground: var(--ink);
+  --card: var(--raised);
+  --card-foreground: var(--ink);
+  --popover: var(--raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--btn);
+  --primary-foreground: var(--btn-ink);
+  --secondary: var(--g2);
+  --secondary-foreground: var(--ink);
+  --muted: var(--g1);
+  --muted-foreground: var(--ink3);
+  --accent: var(--g2);
+  --accent-foreground: var(--ink);
+  --destructive: var(--crit);
+  --border: var(--edge);
+  --input: var(--edge2);
+  --ring: var(--ice);
+
+  /* charts read status, not decoration */
+  --chart-1: var(--ice);
+  --chart-2: var(--ok);
+  --chart-3: var(--warn);
+  --chart-4: var(--hot);
+  --chart-5: var(--crit);
+}
+
+@theme inline {
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* A named container step past Tailwind's 7xl. Arbitrary @min-[…] variants are
+     emitted before the named ones, so they lose to @3xl at equal specificity;
+     a named size sorts where it belongs. */
+  --container-8xl: 87.5rem;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Relay's status hues as first-class utilities: text-crit, bg-ok/10 … */
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-hot: var(--hot);
+  --color-crit: var(--crit);
+  --color-ice: var(--ice);
+  --color-ice-ink: var(--ice-ink);
+}
+
+@layer base {
+  * { @apply border-border; }
+}

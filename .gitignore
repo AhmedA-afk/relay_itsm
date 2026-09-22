@@ -1,0 +1,31 @@
+# python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# the database reseeds itself, so it is never worth committing
+*.db
+
+# node
+node_modules/
+dist/
+
+# local secrets
+.env
+
+# cleaned history is rebuilt by `make import` from the Kaggle downloads
+data/clean/
+.env.*
+!.env.example
+
+# vercel
+.vercel/
+
+# local agent / editor tooling
+.claude/
+.agents/
+.impeccable/
+skills-lock.json
